@@ -1,0 +1,16 @@
+#!/usr/bin/php
+<?php
+//var_dump($argv);
+$user = $argv[1];
+$url = "http://twitter.com/statuses/user_timeline.json?screen_name=$user";
+$ch = curl_init($url);
+curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+$json = curl_exec($ch);
+$array = json_decode($json, true);
+//var_dump($array[0]);
+foreach($array as $tweet){
+  $date = $tweet['created_at'];
+  $timestamp = strtotime($date);
+  $date = date('d/m/Y H:i', $timestamp);
+  echo $date .' : ' .$tweet['text']."\n";
+}
